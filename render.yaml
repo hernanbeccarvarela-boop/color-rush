@@ -1,0 +1,18 @@
+# Render Blueprint: one Web Service that runs the game server (WebSockets) and serves the client.
+# Render → New → Blueprint → select this repository → Apply.
+services:
+  - type: web
+    name: color-rush
+    runtime: node
+    plan: free            # free instances sleep after ~15 min idle; use "starter" to stay always-on
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: RACE_DURATION_SEC
+        value: "300"
+      - key: MIN_PLAYERS
+        value: "2"
